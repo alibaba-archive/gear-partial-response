@@ -1,6 +1,7 @@
 package partial
 
 import (
+	mask "github.com/DavidCai1993/json-mask-go"
 	"github.com/teambition/gear"
 )
 
@@ -16,15 +17,24 @@ type Sender struct {
 }
 
 // Send is to implement gear.Sender interface.
-func (s *Sender) Send(ctx *gear.Context, code int, data interface{}) {
+func (s *Sender) Send(ctx *gear.Context, code int, data interface{}) error {
+	if s.query == "" {
+		return ctx.JSON(code, data)
+	}
 
+	maskedData, err := mask.Mask(data, s.query)
+	if err != nil {
+		return ctx.JSON(code, data)
+	}
+
+	return ctx.JSON(code, maskedData)
 }
 
 // New returns a new partial response middleware for your gear app.
-func New(opts Options) Sender {
+func New(opts Options) *Sender {
 	if opts.Query == "" {
 		opts.Query = "fields"
 	}
 
-	return Sender{query: opts.Query}
+	return &Sender{query: opts.Query}
 }
