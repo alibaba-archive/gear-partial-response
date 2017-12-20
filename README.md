@@ -13,3 +13,17 @@ go get -u github.com/teambition/gear-partial-response
 ## Documentation
 
 API documentation can be found here: https://godoc.org/github.com/teambition/gear-partial-response
+
+## Usage
+
+```go
+import (
+	"github.com/teambition/gear"
+	partial "github.com/teambition/gear-partial-response"
+)
+```
+
+```go
+app := gear.New()
+app.Set(gear.SetSender, partial.New(partial.Options{Query: "fields"}))
+```
