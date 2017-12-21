@@ -23,7 +23,18 @@ import (
 )
 ```
 
+### When nitializing the gear application:
+
 ```go
 app := gear.New()
 app.Set(gear.SetSender, partial.New(partial.Options{Query: "fields"}))
+```
+
+### In controller function:
+
+```go
+app.Use(func(ctx *gear.Context) error {
+	// ...
+	return ctx.Send(http.StatusOK, data)
+})
 ```
