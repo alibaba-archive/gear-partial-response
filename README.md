@@ -23,7 +23,7 @@ import (
 )
 ```
 
-### When nitializing the gear application:
+### When initializing the gear application:
 
 ```go
 app := gear.New()
