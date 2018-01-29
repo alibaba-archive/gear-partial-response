@@ -17,10 +17,16 @@ type Sender struct {
 }
 
 // Send is to implement gear.Sender interface.
-func (s *Sender) Send(ctx *gear.Context, code int, data interface{}) error {
+func (s *Sender) Send(ctx *gear.Context, code int, data interface{}) (err error) {
 	if len(ctx.Query(s.query)) == 0 {
 		return ctx.JSON(code, data)
 	}
+
+	defer func() {
+		if recover() != nil {
+			err = ctx.JSON(code, data)
+		}
+	}()
 
 	maskedData, err := mask.Mask(data, ctx.Query(s.query))
 
