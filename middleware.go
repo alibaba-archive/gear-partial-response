@@ -22,12 +22,6 @@ func (s *Sender) Send(ctx *gear.Context, code int, data interface{}) (err error)
 		return ctx.JSON(code, data)
 	}
 
-	defer func() {
-		if recover() != nil {
-			err = ctx.JSON(code, data)
-		}
-	}()
-
 	maskedData, err := mask.Mask(data, ctx.Query(s.query))
 
 	if err != nil {
