@@ -1,8 +1,8 @@
 package partial
 
 import (
-	mask "github.com/DavidCai1993/json-mask-go"
 	"github.com/teambition/gear"
+	mask "github.com/teambition/json-mask-go"
 )
 
 // Options is the partial response middleware options.
